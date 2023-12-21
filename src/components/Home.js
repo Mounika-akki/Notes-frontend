@@ -30,7 +30,7 @@ export default function Home({ setNote }) {
     const res = await axios.get(`${baseURL}/notes`, {
       headers: { Authorization: token },
     });
-    if (res.data.length == 0) {
+    if (res.data.length === 0) {
       setIsTextVisible(true);
     }
     setNotes(res.data);
@@ -55,18 +55,18 @@ export default function Home({ setNote }) {
   };
 
   return (
-    <div style={{ margin: "2em 0" }}>
+    <div style={{ margin: "5em 0" }}>
       <Container maxWidth="md" component="main">
-        <Grid container spacing={5} alignItems="center">
+        <Grid container spacing={5} alignItems="center" justifyContent="center">
           {notes.length !== 0 &&
             notes.map((note) => (
-              <Grid item key={note._id} xs={12} md={4}>
+              <Grid item key={note._id} xs={12} md={6} lg={4}>
                 <Card>
                   <CardHeader
                     title={note.title}
                     titleTypographyProps={{ align: "center" }}
                     sx={{
-                      backgroundColor: "#1976d2",
+                      backgroundColor: "#689bce",
                     }}
                   />
                   <CardContent sx={{ minHeight: "100px" }}>

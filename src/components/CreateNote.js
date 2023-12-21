@@ -109,6 +109,7 @@ export default function CreateNote({ note, setNote }) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          mt: 7,
         }}
       >
         <Card
@@ -120,7 +121,7 @@ export default function CreateNote({ note, setNote }) {
           }}
         >
           <CardContent>
-            <Box sx={{ backgroundColor: "#1976d2" }}>
+            <Box sx={{ backgroundColor: "#689bce" }}>
               <TextField
                 placeholder="Title......"
                 fullWidth
@@ -146,7 +147,7 @@ export default function CreateNote({ note, setNote }) {
               <Button
                 sx={{
                   m: "0 1em 1em 0",
-                  backgroundColor: "#1976d2",
+                  backgroundColor: "#4489ce",
                 }}
                 disabled={isBtnEnabled ? false : true}
                 variant="contained"
@@ -156,7 +157,7 @@ export default function CreateNote({ note, setNote }) {
               </Button>
             ) : (
               <Button
-                sx={{ m: "0 1em 1em 0", backgroundColor: "#1976d2" }}
+                sx={{ m: "0 1em 1em 0", backgroundColor: "#4489ce" }}
                 variant="contained"
                 disabled={isBtnEnabled ? false : true}
                 onClick={createNote}

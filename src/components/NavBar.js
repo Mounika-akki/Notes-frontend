@@ -15,14 +15,16 @@ const NavBar = ({ setIsLoggedIn, note, setNote }) => {
   };
   return (
     <AppBar
-      position="static"
+      position="fixed"
       color="default"
       elevation={0}
-      sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
+      sx={{
+        borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+      }}
     >
-      <Toolbar sx={{ justifyContent: "center" }}>
+      <Toolbar sx={{ justifyContent: "start" }}>
         <nav style={{ margin: "0 5px" }}>
-          <Link to="/" style={{ margin: "0 2em" }}>
+          <Link to="/" style={{ margin: "0 1em" }}>
             Home
           </Link>
           <Link to="/note" onClick={handleCreatePageRouting}>

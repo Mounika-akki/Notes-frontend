@@ -53,12 +53,15 @@ export default function Login({ setIsLoggedIn }) {
       <Box
         sx={{
           marginTop: 8,
+          padding: "3em 2em",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: "#fff",
+          borderRadius: "20px",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" sx={{ color: "#1976d2" }} variant="h5">
           {isLoginPage ? "LOGIN" : "REGISTER"}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -114,7 +117,7 @@ export default function Login({ setIsLoggedIn }) {
             onClose={() => setErr("")}
             autoHideDuration={4000}
             message={err}
-            sx={{ position: "relative", top: "20px" }}
+            sx={{ position: "relative", top: "1em", ml: -2 }}
           />
         </Box>
       </Box>
