@@ -11,11 +11,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import axios from "axios";
 import { baseURL } from "../utils";
+import { Snackbar } from "@mui/material";
 
 export default function Home({ setNote }) {
   const [token, setToken] = useState(null);
   const [notes, setNotes] = useState([]);
   const [isTextVisibile, setIsTextVisible] = useState(false);
+  const [alertMsg, setAlertMsg] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +45,7 @@ export default function Home({ setNote }) {
           Authorization: token,
         },
       });
+      setAlertMsg("Note deleted successfully");
       getNotes(token);
     } catch (err) {
       window.location.href = "/";
@@ -67,20 +70,27 @@ export default function Home({ setNote }) {
                     titleTypographyProps={{ align: "center" }}
                     sx={{
                       backgroundColor: "#689bce",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      editNote(note);
                     }}
                   />
-                  <CardContent sx={{ minHeight: "100px" }}>
+                  <CardContent sx={{ minHeight: "100px", cursor: "pointer" }}>
                     <Typography
                       variant="subtitle1"
                       align="center"
                       key={note._id}
+                      onClick={() => {
+                        editNote(note);
+                      }}
                     >
                       {note.description}
                     </Typography>
                   </CardContent>
                   <CardActions
                     sx={{
-                      m: "0 5px",
+                      m: "0 10px 0 5px",
                       p: "5px 10px",
                       borderTop: "1px solid #cedece",
                       display: "flex",
@@ -92,7 +102,8 @@ export default function Home({ setNote }) {
                         cursor: "pointer",
                         color: "#000000",
                         position: "relative",
-                        top: "3px",
+                        top: 2,
+                        mr: 2,
                       }}
                       onClick={() => editNote(note)}
                     />
@@ -104,6 +115,16 @@ export default function Home({ setNote }) {
                 </Card>
               </Grid>
             ))}
+          <Snackbar
+            open={Boolean(alertMsg)}
+            onClose={() => setAlertMsg("")}
+            autoHideDuration={2000}
+            message={alertMsg}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+          />
           {isTextVisibile && (
             <Typography
               sx={{
