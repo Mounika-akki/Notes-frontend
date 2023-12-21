@@ -22,10 +22,6 @@ export default function Login({ setIsLoggedIn }) {
     }
   };
   const handleLogin = async (data) => {
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
     try {
       const res = await axios.post(`${baseURL}/users/login`, {
         email: data.get("email"),
@@ -39,11 +35,6 @@ export default function Login({ setIsLoggedIn }) {
   };
 
   const handleRegister = async (data) => {
-    console.log({
-      username: data.get("username"),
-      email: data.get("email"),
-      password: data.get("password"),
-    });
     try {
       const res = await axios.post(`${baseURL}/users/register`, {
         username: data.get("username"),
@@ -53,7 +44,6 @@ export default function Login({ setIsLoggedIn }) {
       setErr(res?.data.message);
       setIsLoginPage(true);
     } catch (err) {
-      console.log(err.response.data);
       err?.response?.data?.message && setErr(err.response.data.message);
     }
   };

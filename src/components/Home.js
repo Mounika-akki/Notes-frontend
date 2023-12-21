@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -12,9 +12,10 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import axios from "axios";
 import { baseURL } from "../utils";
 
-export default function Home() {
+export default function Home({ setNote }) {
   const [token, setToken] = useState(null);
   const [notes, setNotes] = useState([]);
+  const [isTextVisibile, setIsTextVisible] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +30,9 @@ export default function Home() {
     const res = await axios.get(`${baseURL}/notes`, {
       headers: { Authorization: token },
     });
+    if (res.data.length == 0) {
+      setIsTextVisible(true);
+    }
     setNotes(res.data);
   };
 
@@ -54,48 +58,71 @@ export default function Home() {
     <div style={{ margin: "2em 0" }}>
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="center">
-          {notes.map((note) => (
-            <Grid item key={note._id} xs={12} md={4}>
-              <Card>
-                <CardHeader
-                  title={note.title}
-                  titleTypographyProps={{ align: "center" }}
-                  sx={{
-                    // backgroundColor: "#bc5ec4",
-                    backgroundColor: "#1976d2",
-                  }}
-                />
-                <CardContent sx={{ minHeight: "100px" }}>
-                  <Typography variant="subtitle1" align="center" key={note._id}>
-                    {note.description}
-                  </Typography>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    m: "0 5px",
-                    p: "5px 10px",
-                    borderTop: "1px solid #cedece",
-                    display: "flex",
-                    justifyContent: "right",
-                  }}
-                >
-                  <EditNoteIcon
+          {notes.length !== 0 &&
+            notes.map((note) => (
+              <Grid item key={note._id} xs={12} md={4}>
+                <Card>
+                  <CardHeader
+                    title={note.title}
+                    titleTypographyProps={{ align: "center" }}
                     sx={{
-                      cursor: "pointer",
-                      color: "#000000",
-                      position: "relative",
-                      top: "3px",
+                      backgroundColor: "#1976d2",
                     }}
-                    onClick={() => editNote(note)}
                   />
-                  <DeleteIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => deleteNote(note._id)}
-                  />
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
+                  <CardContent sx={{ minHeight: "100px" }}>
+                    <Typography
+                      variant="subtitle1"
+                      align="center"
+                      key={note._id}
+                    >
+                      {note.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions
+                    sx={{
+                      m: "0 5px",
+                      p: "5px 10px",
+                      borderTop: "1px solid #cedece",
+                      display: "flex",
+                      justifyContent: "right",
+                    }}
+                  >
+                    <EditNoteIcon
+                      sx={{
+                        cursor: "pointer",
+                        color: "#000000",
+                        position: "relative",
+                        top: "3px",
+                      }}
+                      onClick={() => editNote(note)}
+                    />
+                    <DeleteIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => deleteNote(note._id)}
+                    />
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          {isTextVisibile && (
+            <Typography
+              sx={{
+                margin: "2em auto",
+              }}
+            >
+              Your notes is Empty.&nbsp;
+              <Link
+                to="/note"
+                onClick={() => {
+                  setNote(null);
+                  localStorage.removeItem("note");
+                }}
+              >
+                Create
+              </Link>
+              &nbsp;a note to see the list
+            </Typography>
+          )}
         </Grid>
       </Container>
     </div>

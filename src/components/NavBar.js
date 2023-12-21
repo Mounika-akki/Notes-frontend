@@ -10,7 +10,7 @@ const NavBar = ({ setIsLoggedIn, note, setNote }) => {
     setIsLoggedIn(false);
   };
   const handleCreatePageRouting = () => {
-    setNote();
+    setNote(null);
     localStorage.removeItem("note");
   };
   return (

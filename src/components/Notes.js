@@ -9,7 +9,7 @@ const Notes = ({ setIsLoggedIn }) => {
     <BrowserRouter>
       <NavBar setIsLoggedIn={setIsLoggedIn} note={note} setNote={setNote} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home setNote={setNote} />} />
         <Route
           path="/note"
           element={<CreateNote note={note} setNote={setNote} />}

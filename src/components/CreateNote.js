@@ -11,6 +11,7 @@ import axios from "axios";
 export default function CreateNote({ note, setNote }) {
   const [token, setToken] = useState("");
   const [isCreate, setIsCreate] = useState(true);
+  const [isBtnEnabled, setIsBtnEnabled] = useState(false);
   const navigate = useNavigate();
   const titleRef = useRef();
   const descriptionRef = useRef();
@@ -20,7 +21,6 @@ export default function CreateNote({ note, setNote }) {
     if (noteFromLS) {
       setNote(JSON.parse(noteFromLS));
     }
-    console.log(note, !Boolean(note));
     setIsCreate(!Boolean(note));
     const tokenFromLS = localStorage.getItem("token");
     setToken(tokenFromLS);
@@ -32,6 +32,14 @@ export default function CreateNote({ note, setNote }) {
       descriptionRef.current.value = note?.description || "";
     }
   }, [note?._id]);
+
+  useEffect(() => {
+    if (note?.title && note?.description) {
+      setIsBtnEnabled(true);
+    } else {
+      setIsBtnEnabled(false);
+    }
+  }, [note?.title, note?.description]);
 
   const handleTitleChange = (event) => {
     setNote({
@@ -136,7 +144,11 @@ export default function CreateNote({ note, setNote }) {
           <CardActions sx={{ display: "flex", justifyContent: "end" }}>
             {!isCreate ? (
               <Button
-                sx={{ m: "0 1em 1em 0", backgroundColor: "#1976d2" }}
+                sx={{
+                  m: "0 1em 1em 0",
+                  backgroundColor: "#1976d2",
+                }}
+                disabled={isBtnEnabled ? false : true}
                 variant="contained"
                 onClick={updateNote}
               >
@@ -146,6 +158,7 @@ export default function CreateNote({ note, setNote }) {
               <Button
                 sx={{ m: "0 1em 1em 0", backgroundColor: "#1976d2" }}
                 variant="contained"
+                disabled={isBtnEnabled ? false : true}
                 onClick={createNote}
               >
                 CREATE
